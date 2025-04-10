@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 // Define user types
@@ -82,8 +81,8 @@ export const ChatbotProvider: React.FC<{ children: ReactNode }> = ({ children })
     setTimeout(() => {
       setIsAuthenticated(true);
       setIsLoading(false);
-      // Add welcome message from bot
-      addMessage(`Hello ${userInfo?.name}! I'm your college assistant. How can I help you today?`, 'bot');
+      // Updated welcome message to use V-BOT
+      addMessage(`Hello ${userInfo?.name}! I'm V-BOT, your AI assistant. How can I help you today?`, 'bot');
     }, 1500);
   };
 
@@ -113,7 +112,6 @@ export const ChatbotProvider: React.FC<{ children: ReactNode }> = ({ children })
   return <ChatbotContext.Provider value={value}>{children}</ChatbotContext.Provider>;
 };
 
-// Custom hook to use the chatbot context
 export const useChatbot = () => {
   const context = useContext(ChatbotContext);
   if (context === undefined) {
