@@ -8,8 +8,8 @@ const Index: React.FC = () => {
     <div className="min-h-screen">
       <header className="bg-college-primary text-white p-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="font-bold text-xl">College Assistant</div>
-          <div className="text-sm">Powered by Gemma 3</div>
+          <div className="font-bold text-xl">V-BOT</div>
+          <div className="text-sm">An AI-powered Chatbot</div>
         </div>
       </header>
       
