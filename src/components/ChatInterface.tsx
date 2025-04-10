@@ -10,7 +10,7 @@ import { useChatbot } from '@/context/ChatbotContext';
 import { format } from 'date-fns';
 
 const ChatInterface: React.FC = () => {
-  const { userInfo, messages, addMessage, logout } = useChatbot();
+  const { userInfo, messages, sendMessage, logout } = useChatbot();
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
@@ -25,21 +25,18 @@ const ChatInterface: React.FC = () => {
     
     if (!input.trim()) return;
     
-    // Add user message to the chat
-    addMessage(input, 'user');
-    
-    // Clear input field
-    setInput('');
-    
     // Show typing indicator
     setIsTyping(true);
     
-    // In a real implementation, we would make an API call to the Ollama/Gemma backend
-    // For now, we'll simulate a response after a delay
-    setTimeout(() => {
-      setIsTyping(false);
-      addMessage("This is a simulated response from the chatbot. In the actual implementation, this would be a response from the Ollama/Gemma3 model running on your Jupyter notebook.", 'bot');
-    }, 1500);
+    // Use the sendMessage function from context which will handle:
+    // - Adding user message to the chat
+    // - Sending the message to Jupyter
+    // - Adding the bot's response to the chat
+    await sendMessage(input);
+    
+    // Clear input field and hide typing indicator
+    setInput('');
+    setIsTyping(false);
   };
 
   // Get the first letter of the name for avatar fallback

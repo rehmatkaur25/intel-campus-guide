@@ -1,4 +1,6 @@
+
 import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { sendMessageToJupyter } from '@/services/jupyterService';
 
 // Define user types
 export type UserType = 'faculty' | 'student' | 'visitor' | null;
@@ -29,6 +31,7 @@ interface ChatbotContextType {
   setUserType: (type: UserType) => void;
   setUserInfo: (info: UserInfo) => void;
   addMessage: (content: string, sender: 'user' | 'bot') => void;
+  sendMessage: (content: string) => Promise<void>;
   authenticate: () => void;
   resetChat: () => void;
   logout: () => void;
@@ -43,6 +46,7 @@ const ChatbotContext = createContext<ChatbotContextType>({
   setUserType: () => {},
   setUserInfo: () => {},
   addMessage: () => {},
+  sendMessage: async () => {},
   authenticate: () => {},
   resetChat: () => {},
   logout: () => {},
@@ -71,6 +75,23 @@ export const ChatbotProvider: React.FC<{ children: ReactNode }> = ({ children })
       timestamp: new Date(),
     };
     setMessages(prev => [...prev, newMessage]);
+  };
+
+  // New function to send messages to Jupyter and handle the response
+  const sendMessage = async (content: string) => {
+    // Add user message to the chat
+    addMessage(content, 'user');
+    
+    try {
+      // Send message to Jupyter and get response
+      const response = await sendMessageToJupyter(content);
+      
+      // Add bot response to the chat
+      addMessage(response.response, 'bot');
+    } catch (error) {
+      console.error('Error handling message:', error);
+      addMessage('Sorry, something went wrong. Please try again.', 'bot');
+    }
   };
 
   // In a real implementation, this would actually verify credentials with a backend
@@ -104,6 +125,7 @@ export const ChatbotProvider: React.FC<{ children: ReactNode }> = ({ children })
     setUserType,
     setUserInfo,
     addMessage,
+    sendMessage,
     authenticate,
     resetChat,
     logout,
