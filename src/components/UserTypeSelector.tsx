@@ -14,7 +14,7 @@ const UserTypeSelector: React.FC = () => {
 
   return (
     <div className="w-full max-w-3xl mx-auto py-8 px-4 animate-fade-in">
-      <h2 className="text-2xl font-bold text-center mb-6">Welcome to College Assistant</h2>
+      <h2 className="text-2xl font-bold text-center mb-6">Welcome to V-BOT</h2>
       <p className="text-center text-muted-foreground mb-8">
         Please select your user type to continue
       </p>
